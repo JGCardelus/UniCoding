@@ -1,0 +1,69 @@
+body
+{
+  margin: 0px;
+}
+
+*
+{
+  --mdc-theme-primary: #1de9b6;
+  --mdc-theme-secondary: #212121;
+}
+
+/* FAB */
+.app-fab--absolute {
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+  }
+
+/* SWITCH */
+.switch
+{
+  margin: 0.15rem 0.7rem 0.15rem 0.7rem;
+}
+
+.switch label
+{
+  font-weight: 300;
+  font-family: 'Roboto';
+}
+
+/* PAGE TITLE */
+.page-title
+{
+  width: 100vw;
+  height: 100px;
+
+  display: flex;
+  align-content: center;
+}
+
+.page-title h1
+{
+  padding-left: 2rem;
+  padding-top: 1rem;
+
+  color: rgb(0,0,0);
+  font-weight: 100;
+  font-family: 'Rounded';
+  font-size: 2.5em;
+}
+
+/* NAV BAR */
+.nav-bar
+{
+  width: 100vw;
+  height: 10vh;
+
+  position: fixed;
+  bottom: 0vh;
+
+  border-top: 0px solid rgb(100, 100, 100);
+}
+
+.nav-bar button
+{
+  z-index: 100;
+  position: absolute;
+  bottom: 1rem;
+}
