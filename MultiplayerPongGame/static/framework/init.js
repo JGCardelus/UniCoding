@@ -20,7 +20,4 @@ function startEnvironment()
   //scrollBottom();
 }
 
-$(document).ready(function()
-{
-  startEnvironment();
-});
+startEnvironment();
