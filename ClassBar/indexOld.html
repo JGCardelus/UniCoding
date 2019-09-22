@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Progressbar</title>
+</head>
+<style>
+    *
+    {
+        margin: 0px;
+        height: 100vh;
+        width: 90vw;
+    }
+    .cointaner
+    {
+        margin: 50px;
+        width: 500px;
+        height: 50vh;
+
+        border: 1px solid grey;
+    }
+
+    .container #progress
+    {
+        height: 100%;
+        width: 0px;
+        background-color: green;
+    }
+</style>
+<body>
+    <div class="container">
+        <div id="progress"></div>
+    </div>
+</body>
+<script>
+    let class_time = 50 * 60; //Seconds
+    let second_counter = 25*60;
+    function count()
+    {
+        setTimeout(() => {
+            second_counter += 15;
+            console.log(second_counter / 15);
+            let w = (500 * second_counter) / class_time;
+            document.getElementById('progress').style.width = w + 'px';
+            count();
+        }, 15000);
+    }
+    
+    count();
+</script>
+</html>
