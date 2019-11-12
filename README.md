@@ -1,3 +1,2 @@
-# UniversityPythonProjects
-
-Python projects done in university.
+# uni-coding
+All coding project done in the University and more.
