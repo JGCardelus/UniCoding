@@ -24,6 +24,17 @@ class Game_Stats:
         else:
             self.incorrect += 1
 
+    def show(self):
+        print("            ")
+        print("*************")
+        print("Game stats: ")
+        print("Total questions: %s" % (self.answered_questions))
+        print("     · Correct questions: %s -- %s" % (str(self.correct), str((self.correct / self.answered_questions) * 100)))
+        print("     · Incorrect questions: %s -- %s" % (str(self.incorrect), str((self.incorrect / self.answered_questions) * 100)))
+        print("Average response time: %s" % (self.total_time / self.answered_questions))
+        print("*************")
+        print("            ")
+
 def get_amount():
     amount = 0
     while True:
@@ -58,7 +69,7 @@ def get_difficulty():
     elif choice == '3':
         difficulty = 'hard'
     else:
-        print("The value entered is not value. Selected default option.")
+        print("The value entered is not correct. Selected the default option.")
         difficulty = 'easy'
 
     return difficulty
@@ -104,9 +115,6 @@ def get_api_url():
     if category != None:
         params += '&category=' + str(category)
 
-    if category != None:
-        params["category"] = category
-
     api_url += params
 
     return api_url
@@ -114,16 +122,17 @@ def get_api_url():
 def get_questions():
     api_url = get_api_url()
     response = requests.get(api_url)
+    response.encoding = 'utf-8'
     data = response.json()
     
     return data
 
 def ask_solution(correct, answers):
-    time = 0
+    answer_time = 0
     is_correct = False
     while True:
         start_time = time.time()
-        for i, answer in answers:
+        for i, answer in enumerate(answers):
             print("     %s) %s" % ((i + 1), answer))
         print()
         try:
@@ -132,7 +141,7 @@ def ask_solution(correct, answers):
             if choice > len(answers) or choice < 1:
                 print("Please enter a number between 1 and %s" % (len(answers)))
             else:
-                time = time.time() - start_time
+                answer_time = time.time() - start_time
                 index = choice - 1
                 if correct == answers[index]:
                     is_correct = True
@@ -141,8 +150,8 @@ def ask_solution(correct, answers):
         except ValueError:
             print("Please enter a number between 1 and %s" % (len(answers)))
 
-        return is_correct, time
     
+    return is_correct, answer_time 
 
 def ask_question(question_data, game_stats):
     category = question_data["category"]
@@ -150,8 +159,8 @@ def ask_question(question_data, game_stats):
     correct_answer = question_data["correct_answer"]
     answers = question_data["incorrect_answers"]
 
-    answers.extend(correct_answer)
-    answers = random.shuffle(answers)
+    answers.append(correct_answer)
+    random.shuffle(answers)
 
     print()
     print(question)
@@ -161,17 +170,23 @@ def ask_question(question_data, game_stats):
 
     game_stats.update(is_correct, time)
 
+    return is_correct
+    
+
 def start_game(data):
     questions = data["results"]
     game_stats = Game_Stats()
 
     for question_data in questions:
-        ask_question(question_data, game_stats)
+        is_correct = ask_question(question_data, game_stats)
+
+    game_stats.show()
+
 
 def new_game():
     data = get_questions()
     start_game(data)
 
-
+new_game()
 
 
