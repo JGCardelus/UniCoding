@@ -2,32 +2,40 @@ import sys
 import requests
 from bs4 import BeautifulSoup as bs
 
-def title(text):
-    sys.stdout.write("\033[1;34m")
-    print(text)
-    sys.stdout.write("\033[0;0m")
-
 class Movie:
     def __init__(self, name, rating, votes, gross, position):
         self.name = name
         self.rating = rating
         self.votes = votes
         self.gross = gross
-        self.position = position
+        self.position = position    
+
+    def hightlight(self, text):
+        #sys.stdout.write("\033[1;34m")
+        print(text, end='')
+        #sys.stdout.write("\033[0;0m")
 
     def show(self, space):
-        text = "Ranking: {:2}".format(str(self.position))
-        text += " Title: "
-        spaces = len(self.name) - space
+        self.hightlight("Ranking: ")
+        print("{:2}".format(str(self.position)), end='')
+        self.hightlight(" Title: ")
+        spaces = space - len(self.name)
+        text = ""
         for i in range(spaces):
             text += " "
         text += self.name
-        text += " Rating: {0}".format(self.rating)
-        text += " Votes: {0}".format(self.votes)
+        print(text, end='')
+        self.hightlight(" Rating: ")
+        print("{:3}".format(str(self.rating)), end='')
+        self.hightlight(" Votes: ")
+        print("{:6}".format(str(self.votes)), end='')
+        self.hightlight(" Values: ")
         if self.gross != None:
-            text += " Values: {0}".format(self.gross)
+            print("{0}".format(self.gross), end='')
         else:
-            text += " Values: unknown"
+            print("unknown", end='')
+
+        print()
 
 movies = []
 longest_title = 0
@@ -38,8 +46,9 @@ scraper = bs(imdb_content, 'html.parser')
 
 movies_container = scraper.find_all('div', class_="lister-item mode-advanced")
 if len(movies_container) == 50:
-    for i, movie_element in enumerate(movies_container):
-        name = ""
+    ranking = 1
+    for movie_element in movies_container:
+        raw_name = ""
         rating = 0
         votes = 0
         gross = ""
@@ -50,7 +59,12 @@ if len(movies_container) == 50:
             if i < 2:
                 a_tag = a_tags[i]
                 if a_tag["href"].find('/title') > -1:
-                    name += a_tag.get_text() + " "
+                    raw_name += a_tag.get_text() + " "
+        
+        name = ""
+        for letter in raw_name:
+            if letter not in ["\n"]:
+                name += letter
 
         # RATING
         rating_container = movie_element.find("div", class_="ratings-imdb-rating")
@@ -68,8 +82,10 @@ if len(movies_container) == 50:
         if len(name) > longest_title:
             longest_title = len(name)
 
-        movie = Movie(name, rating, votes, gross, i + 1)
+        movie = Movie(name, rating, votes, gross, ranking)
         movies.append(movie)
+
+        ranking += 1
 
 
 for movie in movies:
