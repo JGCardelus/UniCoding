@@ -1,0 +1,1 @@
+EL proceso padre es el bash en el que se está ejecutando el código

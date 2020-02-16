@@ -4,9 +4,9 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 
-void unordered()
+void ordered()
 {
-    printf("Creating 2 child processes --> Rage\n");
+    printf("Creating 2 child processes --> Controlled\n");
 
     pid_t pid;
     pid_t pid2;
@@ -21,10 +21,10 @@ void unordered()
         {
             printf("I am CHILD: %d ---- %d\n", getpid(), i);
         }
-        waitpid(pid, &status, 0);
     }
     else
     {
+        waitpid(pid, &status, 0);
         if((pid2 = fork()) == 0)
         {
             for (int i = 0; i < max; i++)
@@ -40,6 +40,6 @@ void unordered()
 
 int main(int argc, char *argv[])
 {
-    unordered();
+    ordered();
     return 0;
 }
