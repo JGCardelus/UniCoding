@@ -1,0 +1,48 @@
+#CONFIGURAR MySQL para C: instalando las librerías de diseño *-dev para poder acceder desde C/C++ a MySQL.
+#-------------------
+
+ sudo apt install libmysqlclient-dev
+
+
+
+#En caso de ERROR:
+#---------------
+ israel@israel-VirtualBox:~$ sudo apt install libmysqlclient-dev
+ E: No se pudo bloquear /var/lib/dpkg/lock-frontend - open (11: Recurso no disponible temporalmente)
+ E: Unable to acquire the dpkg frontend lock (/var/lib/dpkg/lock-frontend), is another process using it?
+
+#Hacer lo siguiente:
+#-------------------
+
+ sudo fuser -vki  /var/lib/dpkg/lock-frontend
+ sudo rm -f /var/lib/dpkg/lock-frontend
+ sudo dpkg --configure -a
+ sudo apt-get autoremove
+ 
+ sudo apt install libmysqlclient-dev
+
+
+
+#COMPILACIÓN: (nombre.c)
+#-----------------------
+ gcc -I /usr/include/mysql nombre.c -L /usr/lib/mysql -lmysqlclient -o nombre
+ 
+ gcc -o nombre $(mysql_config --cflags) nombre.c $(mysql_config --libs)
+
+#EJECUCIÓN: (nombre)
+#--------------------
+./nombre
+
+
+
+
+EJEMPLOS COMPILACION: (connection.c)
+--------------------------------------
+gcc -I /usr/include/mysql connection.c -L /usr/lib/mysql -lmysqlclient -o connection
+
+gcc -o connection $(mysql_config --cflags) connection.c $(mysql_config --libs)
+
+
+EJECUCIÓN: (connection)
+-------------------------
+./connection
