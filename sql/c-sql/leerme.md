@@ -1,5 +1,6 @@
 # Pasos
 ## Preparar el entorno
+Descargar esta carpeta en tu ordenador.
 Instalar pyscreenshot y pillow, para hacer las capturas de pantalla
 
 ```
