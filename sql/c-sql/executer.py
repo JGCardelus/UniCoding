@@ -3,6 +3,7 @@ import subprocess
 import pyscreenshot as ImageGrab
 
 loc = os.path.join(os.getcwd(), "programs")
+os.popen("mkdir photos")
 photos = os.path.join(os.getcwd(), "photos")
 
 def is_c_program(name):
