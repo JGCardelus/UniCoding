@@ -5,7 +5,7 @@
 
 static char *host = "localhost"; //server
 static char *user = "root";
-static char *pass = "889927";
+static char *pass = "root";
 static char *dbname = "PRUEBA";
 
 unsigned int port = 3306;
